@@ -7,7 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="simpleGame.js"></script>
     <script type="text/javascript" src="frogleaves.js"></script>    
-    
+<style type="text/css">
+#reset {
+    position: absolute;
+    left: 150px;
+    top:300px
+}
+</style>
     <script type="text/javascript">
         var scene;
         var flies;
@@ -90,7 +96,7 @@
 </head>
 <body onload = "init()">
     <div id ="scoreBoard" >Score Board : 0 </div>
-    <div>
+    <div id = "reset">
         <button type="button" onclick="restart()">
             Play again
         </button>

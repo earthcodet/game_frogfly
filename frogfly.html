@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="simpleGame.js"></script>
+    <script type="text/javascript" src="frogleaves.js"></script>    
+    
+    <script type="text/javascript">
+        var scene;
+        var flies;
+        var frog;
+        var ribbitMP3;
+        var ribbitOGG;
+        var hits;
+        var NUMFLIES = 3 ;
+        var scoreBoard;
+        var time;
+        var MAXTIME = 10;
+
+        function checkCollision(flyNum) {
+            if (frog.collidesWith(flies[flyNum]))
+            {
+                ribbitMP3.play();
+                ribbitOGG.play();
+                flies[flyNum].reset();
+                updateScore();
+            }
+        }
+        function updateScore(){
+            hits ++
+            scoreBoard = document.getElementById("scoreBoard");
+            scoreBoard.innerHTML = "Score Board : " + hits + ' Time : '+time;
+        }
+        function setupFlies(){
+            flies = new Array(NUMFLIES);
+            for(i=0 ;i<NUMFLIES;i++)
+            flies[i] = new Fly();
+        }
+
+
+        function init(){
+            hits = 0 ;
+            scene = new Scene() ;
+            leaves = new Sprite(scene,"leaves.png",640,480);
+            leaves.setSpeed(0);
+            timer = new Timer();
+           
+            setupFlies();
+           // fly = new Fly();
+            frog = new Frog();
+            ribbitMP3 = new Sound("ribbit.mp3");
+            ribbitOGG = new Sound("ribbit.ogg");
+            scene.start();
+            
+        }
+        function update(){
+            
+            scene.clear();
+            leaves.update();
+            for(i=0;i<NUMFLIES;i++){
+                flies[i].wriggle();
+                checkCollision(i);
+                flies[i].update();
+            }
+            frog.moveKeys();
+            
+            
+            
+            
+            frog.update();
+            checktime();
+            
+        }
+        function checktime(){
+            time = timer.getElapsedTime();
+            if (time > MAXTIME){
+                scene.stop();
+            }
+            updateScore(); 
+        }
+        function restart(){
+            document.location.href = "";
+        }
+        </script>
+   
+
+</head>
+<body onload = "init()">
+    <div id ="scoreBoard" >Score Board : 0 </div>
+    <div>
+        <button type="button" onclick="restart()">
+            Play again
+        </button>
+    </div>
+</body>
+</html>
